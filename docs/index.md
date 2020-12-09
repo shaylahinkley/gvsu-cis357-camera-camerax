@@ -63,7 +63,7 @@ In order to setup the "My Progress App", you will need a few things including:
      }
     ```
     
-    6. There will be errors after inserting the code from step 5. You need to import the needed statements by pressing `Alt+Enter` on the errors, or insert the following imports at the top of the `Mainfest.kt`. We will import a couple more that will relate to other functions. It is easier to do a chunk of them all at once. Make sure all the statements are imported below (watch for repeats).
+ 6. There will be errors after inserting the code from step 5. You need to import the needed statements by pressing `Alt+Enter` on the errors, or insert the following imports at the top of the `Mainfest.kt`. We will import a couple more that will relate to other functions. It is easier to do a chunk of them all at once. Make sure all the statements are imported below (watch for repeats).
     
     
         ``` kotlin
@@ -77,13 +77,13 @@ In order to setup the "My Progress App", you will need a few things including:
         import androidx.core.content.ContextCompat
         ```
        
-     7. There will still be an error in the `private fun requestPermission()` function because of the val `PERMISSION_REQUEST_CODE`. In order to solve this error, insert the following code in the `MainActivity.kt class` outside of the functions, before the `override fun onCreate(savedInstanceState: Bundle?)` function.
+ 7. There will still be an error in the `private fun requestPermission()` function because of the val `PERMISSION_REQUEST_CODE`. In order to solve this error, insert the following code in the `MainActivity.kt class` outside of the functions, before the `override fun onCreate(savedInstanceState: Bundle?)` function.
      
         
         ``` kotlin
         private val PERMISSION_REQUEST_CODE = 1
         ```
         
-    8. 
+ 8. 
         
 
