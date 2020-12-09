@@ -77,13 +77,15 @@ In order to setup the "My Progress App", you will need a few things including:
         import androidx.core.content.ContextCompat
         ```
        
+       
  7. There will still be an error in the `private fun requestPermission()` function because of the val `PERMISSION_REQUEST_CODE`. In order to solve this error, insert the following code in the `MainActivity.kt class` outside of the functions, before the `override fun onCreate(savedInstanceState: Bundle?)` function.
      
         
         ``` kotlin
         private val PERMISSION_REQUEST_CODE = 1
         ```
-        
+      
+      
  8. 
         
 
