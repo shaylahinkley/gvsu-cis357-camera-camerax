@@ -115,8 +115,9 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
-  9. Now, we will be creating a function `private fun createFile() : File` to create a file that stores an image that is taken by the camera before we make the method that takes the picture. Insert the following function into your `MainAcitvity.kt class`. You will need insert a couple of imports at the top of the file. In addition, int There will be an error due `CurrentPhotoPath = absolutePath`. We will fix this in the following steps.
+9. Now, we will be creating a function `private fun createFile() : File` to create a file that stores an image that is taken by the camera before we make the method that takes the picture. Insert the following function into your `MainAcitvity.kt class`. You will need insert a couple of imports at the top of the file. In addition, int There will be an error due `CurrentPhotoPath = absolutePath`. We will fix this in the following steps.
     
+ 
  
     ``` kotlin
     @Throws(IOException::class)
@@ -136,6 +137,7 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+    
     ``` kotlin
     import java.io.IOException
     import java.io.File
@@ -145,7 +147,9 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+    
 10. Insert the following line in `MainActivity.kt class` right after where you declared `private val PERMISSION_REQUEST_CODE = 1`
+
 
 
     ``` kotlin
@@ -153,10 +157,12 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+    
 11. Next, we need to configure the `FileProvider` in the `AndroidManifest.xml` located in `app/manifests/` in order to add a provider to our application. This code will be inserted between `<application>` and `</application>`. Do not worry if you see errors.
 
 
-    ```kotlin
+
+    ``` kotlin
     <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -171,7 +177,8 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
- 12. Create a new xml file called `file_path.xml` under the `app/res/xml` folder. the `xml` folder is made when you create the file. Right click on `app/res`. Choose `New` -> `Android Resource File`. In the `File name` field, insert `file_path`. For the `Resource Type` choose `XML`, then click `OK` in the bottom right hand corner. Insert the code after clicking `Code` in the toolbar above the `Attribute Pane`, replacing what was default in the file. You MUST add your package name in the path.
+    
+12. Create a new xml file called `file_path.xml` under the `app/res/xml` folder. the `xml` folder is made when you create the file. Right click on `app/res`. Choose `New` -> `Android Resource File`. In the `File name` field, insert `file_path`. For the `Resource Type` choose `XML`, then click `OK` in the bottom right hand corner. Insert the code after clicking `Code` in the toolbar above the `Attribute Pane`, replacing what was default in the file. You MUST add your package name in the path.
     
     
     ``` kotlin
@@ -204,6 +211,7 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+    
     ``` kotlin
     import android.app.Activity
     import android.content.Intent
@@ -217,15 +225,17 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
- 14. Insert of following line of code at the top of the `MainActivity.kt class ` outside all the functions where you defined other `val` and `var` variables.
+14. Insert of following line of code at the top of the `MainActivity.kt class ` outside all the functions where you defined other `val` and `var` variables.
  
  
-    `` kotlin
+ 
+    ``` kotlin
     val REQUEST_IMAGE_CAPTURE = 1
     ```
    
    
 15. Now, after the function `takePicture()` opens the camera, we will need to capture an image. We will then need to show this on our `ImageView`. In order to get the `ImageView`, add the method to the `MainActivity.kt class`. There will be an error. 
+
 
 
     ``` kotlin
@@ -244,6 +254,7 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+    
 16. Add the followings line of code under where you defined the `var` and `val` variables at the top of the class. This will be the `Image View` that the picture shows up on. The `Button` will be used in another function.
     
 
@@ -256,7 +267,7 @@ In order to setup the "My Progress App", you will need a few things including:
 17.  Add the following code to your `override fun onCreate(savedInstanceState: Bundle?)` function. You can replace the `R.id.image_view` and `R.id.btn_capture` later when we create our `ButtonID` and `ImageViewID`. when the `Capture Button` is pressed, permissions are checked. You will need to add the `checkPermission()` function in the next step.
 
 
-    ```kotlin
+    ``` kotlin
     imageView = findViewById(R.id.image_view)
     captureButton = findViewById(R.id.btn_capture)
     captureButton.setOnClickListener(View.OnClickListener {
