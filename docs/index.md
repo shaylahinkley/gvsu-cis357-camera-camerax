@@ -27,3 +27,8 @@ In order to setup the "My Progress App", you will need a few things including:
 
 ## Start Coding
 6. On the left hand side of the window, you will see `1: Project`. You can click this to collapse and open the layout of the project. Making sure that the `Project Layout` is not collapsed, ensure in the top left of the panel that `Android` is chosen from the drop down menu. This will help simplify what files you need to look at.
+7. Navigate to `app/manifests/AndroidManifest.xml` in the `Project Layout Navigation Panel`. In `AndroidManifest.xml` you must add the following permissions
+~~~ kotlin
+<uses-permission android:name="android.permission.CAMERA"/>  
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+~~~
