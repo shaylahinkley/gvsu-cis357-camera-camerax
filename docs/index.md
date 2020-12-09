@@ -33,3 +33,10 @@ In order to setup the "My Progress App", you will need a few things including:
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 ~~~
+8. Also in `app/manifests/AndroidManifest.xml`, since using the camera is one of the main features of the app or an essential function, it is best to restrict its visibility on [Google Play](https://play.google.com/store) to devices that have a camera. To do this, we will need to add the following code to the `AndroidManifest.xml` file right under the `<uses-permission .... />` code we added in step 7.
+~~~kotlin
+<uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
+~~~
+
+
