@@ -32,9 +32,9 @@ In order to setup the "My Progress App", you will need a few things including:
 
     ``` kotlin  
     <uses-permission android:name="android.permission.CAMERA"/>  
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  
           android:maxSdkVersion="18"/>  
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  
     ```  
 
 
