@@ -264,7 +264,8 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
-17.  Add the following code to your `override fun onCreate(savedInstanceState: Bundle?)` function. You can replace the `R.id.image_view` and `R.id.btn_capture` later when we create our `ButtonID` and `ImageViewID`. when the `Capture Button` is pressed, permissions are checked. You will need to add the `checkPermission()` function in the next step.
+17. Add the following code to your `override fun onCreate(savedInstanceState: Bundle?)` function. You can replace the `R.id.image_view` and `R.id.btn_capture` later when we create our `ButtonID` and `ImageViewID`. when the `Capture Button` is pressed, permissions are checked. You will need to add the `checkPermission()` function in the next step.
+
 
 
     ``` kotlin
@@ -274,6 +275,7 @@ In order to setup the "My Progress App", you will need a few things including:
         if (checkPersmission()) takePicture() else requestPermission()
     })
     ```
+    
     
     
 18. Add the `checkPermission()` function in the `MainActivity.kt` class. This checks if we have the right permissions to access the camera.
