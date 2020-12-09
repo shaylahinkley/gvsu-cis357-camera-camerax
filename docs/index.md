@@ -45,5 +45,6 @@ In order to setup the "My Progress App", you will need a few things including:
     <uses-feature android:name="android.hardware.camera"  
          android:required="true"/>  
     ~~~  
-
+    
+ 4. 
 
