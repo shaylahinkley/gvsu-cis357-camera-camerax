@@ -16,7 +16,7 @@ In order to setup the "My Progress App", you will need a few things including:
 - Basic knowledge of Kotlin Mobile Development. The documentation resources for Kotlin are [here](https://kotlinlang.org/docs/reference/), but some basic tutorials to help get you started can be found [here](https://kotlinlang.org/docs/tutorials/).  
 
 
-# Step-by-Step: Let's get started.
+# Step-by-Step: Let's code.
 
 ## Creating the project
 1. Open Android Studio and select `File` -> `New Project`
