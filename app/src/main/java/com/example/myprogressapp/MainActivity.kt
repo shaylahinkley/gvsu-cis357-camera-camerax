@@ -5,40 +5,52 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    lateinit var imageView: ImageView
+    //lateinit var imageView: ImageView
     lateinit var captureButton: Button
 
     private val PERMISSION_REQUEST_CODE = 1
-    private var CurrentPhotoPath: String? = null;
+    private var CurrentPhotoPath: String? = null
     val REQUEST_IMAGE_CAPTURE = 1
+
+    var adapter: ImageRecyclerView? = null
+    val allFilePaths = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //set up the recycler view.
+        var rView: RecyclerView = findViewById(R.id.rvImages)
+        rView.layoutManager = (LinearLayoutManager(this))
+        adapter = ImageRecyclerView(allFilePaths)
+        rView.adapter = adapter
+        val dividerItemDecoration = DividerItemDecoration(rView.getContext(), 0)
+        rView.addItemDecoration(dividerItemDecoration)
+
         //change ID's to real ones when layout is complete
         //imageView = findViewById(R.id.image_view)
-        //captureButton = findViewById(R.id.btn_capture)
+        captureButton = findViewById(R.id.btn_capture)
         captureButton.setOnClickListener(View.OnClickListener {
             if (checkPersmission()) takePicture() else requestPermission()
         })
@@ -88,7 +100,6 @@ class MainActivity : AppCompatActivity() {
         )
         intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -97,9 +108,11 @@ class MainActivity : AppCompatActivity() {
 
             //To get the File for further usage
             val auxFile = File(CurrentPhotoPath)
-            var bitmap : Bitmap = BitmapFactory.decodeFile(CurrentPhotoPath)
-            imageView.setImageBitmap(bitmap)
+            //var bitmap : Bitmap = BitmapFactory.decodeFile(CurrentPhotoPath)
+            //imageView.setImageBitmap(bitmap)
 
+            allFilePaths.add(CurrentPhotoPath.toString())
+            adapter?.notifyDataSetChanged()
         }
     }
 

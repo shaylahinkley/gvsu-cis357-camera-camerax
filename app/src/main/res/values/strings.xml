@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyProgressApp</string>
+    <string name="capture_button">Takes the image.</string>
+    <string name="capture_button_text">Capture</string>
+    <string name="image_view_image">Displays the image taken.</string>
+    <string name="image_view_text">Displays the file name.</string>
+    <string name="image_view_activity_image">Displays the image from the file received.</string>
 </resources>
