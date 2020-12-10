@@ -91,9 +91,6 @@ class MainActivity : AppCompatActivity() {
 
     //opens camera and takes a picture. should be kept the same
     private fun takePicture() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if(intent.resolveActivity(packageManager)!= null) {
-
             // We create a file here because that's how we reference what to display for the user on
             // the recycler view and activity page.
             val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -107,8 +104,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             startActivityForResult(intent, CAMERA_REQUEST_CODE)
         }
-
-    }
 
     //this might have to change. this is actually where you send the data over to the view and set it
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
