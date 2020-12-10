@@ -5,12 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/image_view_date"
+        android:layout_width="411dp"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image_view_activity_image"
-        android:layout_width="410dp"
-        android:layout_height="733dp"
+        android:layout_width="411dp"
+        android:layout_height="718dp"
         android:contentDescription="@string/image_view_activity_image"
         android:rotation="90"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

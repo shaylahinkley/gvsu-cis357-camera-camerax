@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_GALLERY_CAMERA = 12345
     private val PERMISSION_REQUEST_CODE: Int = 101
 
-    // Adapater used to control the recycler view.
+    // Adapter used to control the recycler view.
     var adapter: ImageRecyclerView? = null
 
     // These are shared with the recycler view, they contain the paths to each of the image files.
@@ -54,9 +54,6 @@ class MainActivity : AppCompatActivity() {
         rView.layoutManager = (LinearLayoutManager(this))
         adapter = ImageRecyclerView(allFilePaths)
         rView.adapter = adapter
-        val dividerItemDecoration = DividerItemDecoration(rView.context, 0)
-        rView.addItemDecoration(dividerItemDecoration)
-
 
         captureButton = findViewById(R.id.btn_capture)
         captureButton.setOnClickListener(View.OnClickListener {

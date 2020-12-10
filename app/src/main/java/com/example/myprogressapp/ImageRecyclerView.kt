@@ -34,7 +34,7 @@ class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.
         val holder = ViewHolder(view)
         view.setOnClickListener {
             val intent = Intent(it.context, ImageViewActivity::class.java).apply {
-                putExtra("Image", holder.myImagePath)
+                putExtra("ImagePath", holder.myImagePath)
             }
             startActivity(it.context, intent, null)
         }
