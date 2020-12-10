@@ -23,22 +23,41 @@ In order to setup the "My Progress App", you will need a few things including:
 2.  Under the section heading `Phone and Tablet` click the activity labeled `Empty Activity` and click `Next`.  
 3.  On the `Configure Your Project` screen, name the application `MyProgressApp`. The `Package name` and `Save location` should update accordingly. If you wish to save into a different spot, click the folder icon on the right. 
 4.  Under `Language`, make sure `Kotlin` is chosen from the drop down menu and set the `Minimum SDK` to `API 19: Android 4.4 (KitKat)` to ensure that your application will run on a majority of devices. This can be changed in other projects, however, for this project we are going to stick with `API 19: Android 4.4 (KitKat)`. 
-5.  If you have done the steps correctly, your Android Studio will take you to the main editing window on the `MainActivity.kt` file.  
+5.  If you have done the steps correctly, your Android Studio will take you to the main editing window on the `MainActivity.kt` file. 
+6. On the left hand side of the window, you will see `1: Project`. You can click this to collapse and open the layout of the project. Making sure that the `Project Layout` is not collapsed, ensure in the top left of the panel that `Android` is chosen from the drop down menu. This will help simplify what files you need to look at. 
+7. Navigate to `GradleScripts/build.gradle (Module: MyProgressApp.app)`
+8. Scroll to the bottom where you see `dependencies`. In between the `brackets {}` replace the code with the following code. These dependencies will be needed prior to starting the project.
 
-## Accessing the camera and taking pictures
-1.  On the left hand side of the window, you will see `1: Project`. You can click this to collapse and open the layout of the project. Making sure that the `Project Layout` is not collapsed, ensure in the top left of the panel that `Android` is chosen from the drop down menu. This will help simplify what files you need to look at.  
-2.  Navigate to `app/manifests/AndroidManifest.xml` in the `Project Layout Navigation Panel`. In `AndroidManifest.xml` you must add the following permissions under the line containing the package name `package=".com.example.myprogressapp">`. These permissions allow access to the camera and read/write to external storage.  
+
+
+    ``` kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    ```
+    
+    
+
+## Accessing the camera and taking pictures 
+1.  Navigate to `app/manifests/AndroidManifest.xml` in the `Project Layout Navigation Panel`. In `AndroidManifest.xml` you must add the following permissions under the line containing the package name `package=".com.example.myprogressapp">`. These permissions allow access to the camera and read/write to external storage.  
 
 
     ``` kotlin  
     <uses-permission android:name="android.permission.CAMERA"/>  
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  
           android:maxSdkVersion="18"/>  
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     ```  
 
 
-3.  Also in `app/manifests/AndroidManifest.xml`, since using the camera is one of the main features of the app or an essential function, it is best to restrict its visibility on [Google Play](https://play.google.com/store) to devices that have a camera. To do this, we will need to add the following code to the `AndroidManifest.xml` file right under the `<uses-permission .... />` code we added in step 7.  
+2.  Also in `app/manifests/AndroidManifest.xml`, since using the camera is one of the main features of the app or an essential function, it is best to restrict its visibility on [Google Play](https://play.google.com/store) to devices that have a camera. To do this, we will need to add the following code to the `AndroidManifest.xml` file right under the `<uses-permission .... />` code we added in step 7.  
 
 
     ``` kotlin  
@@ -46,76 +65,66 @@ In order to setup the "My Progress App", you will need a few things including:
          android:required="true"/>  
     ```  
     
- 4. Now navigate back to `app/java/com.example.myprogressapp/MainActivity.kt`. There will be multiple `com.example.myprogressapp` packages. Click the one that does not say `(android)` or `(test)`.
- 5. We now need to set up permissions in `MainActivity.kt`. We need to do this because from Android 6.0, Google introduced permissions. They need to be requested at runtime for the user to approve or decline. Insert the following functions into the `MainActivity.kt class` in order to check permissions and request permissions. Errors in the code will be handled in following steps, do not worry!
+ 3. Now navigate back to `app/java/com.example.myprogressapp/MainActivity.kt`. There will be multiple `com.example.myprogressapp` packages. Click the one that does not say `(android)` or `(test)`.
+ 4. We now need to insert imports in `MainActivity class`. We are going to import most right now to get it out of the way for later. Feel free to copy and paste to save time!
  
  
-     ``` kotlin
-     private fun checkPermission(): Boolean {
-          return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
-                   PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                  android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-      }
-
-      private fun requestPermission() {
-          ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE, CAMERA),
-         PERMISSION_REQUEST_CODE)
-     }
-    ```
-    
-    
- 6. There will be errors after inserting the code from step 5. You need to import the needed statements by pressing `Alt+Enter` on the errors, or insert the following imports at the top of the `Mainfest.kt`. We will import a couple more that will relate to other functions. It is easier to do a chunk of them all at once. Make sure all the statements are imported below (watch for repeats).
-    
 
     ``` kotlin
     import android.Manifest.permission.CAMERA
     import android.Manifest.permission.READ_EXTERNAL_STORAGE
+    import android.app.Activity
+    import android.content.Intent
     import android.content.pm.PackageManager
+    import android.graphics.Bitmap
+    import android.graphics.BitmapFactory
+    import android.net.Uri
+    import android.os.Build
     import androidx.appcompat.app.AppCompatActivity
     import android.os.Bundle
+    import android.os.Environment
+    import android.provider.MediaStore
+    import android.view.View
+    import android.widget.Button
+    import android.widget.ImageView
     import android.widget.Toast
     import androidx.core.app.ActivityCompat
     import androidx.core.content.ContextCompat
-     ```
-       
-       
- 7. There will still be an error in the `private fun requestPermission()` function because of the val `PERMISSION_REQUEST_CODE`. In order to solve this error, insert the following code in the `MainActivity.kt class` outside of the functions, before the `override fun onCreate(savedInstanceState: Bundle?)` function.
-     
-        
-    ``` kotlin
-    private val PERMISSION_REQUEST_CODE = 1
+    import androidx.core.content.FileProvider
+    import java.io.File
+    import java.io.IOException
+    import java.text.SimpleDateFormat
+    import java.util.*
     ```
  
  
- 8. We are going to end up checking the permissions in a Capture `Button` click. If the user has already given permissions to access the `Camera` and `External Storage`, then we can directly open the camera to take a picture. However, we will need to manage the function `onRequestPermissionsResult()` to open the camera after the request for permissions and if the user accepted it. Insert the following function into the `MainActivity.kt class`.
+ 5. We are going to end up checking the permissions in a `Capture Button` click. If the user has already given permissions to access the camera and external storage, then we can directly open the camera to take a picture. However, we will need the function `onRequestPermissionsResult()` to open the camera after the request for permissions and if the user accepted it. Insert the following function into the `MainActivity class`. Leave `takePicture()` commented out for now. Also insert the `val` variables at the top of your class. 
  
  
     ``` kotlin
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            PERMISSION_REQUEST_CODE -> {
-
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                        &&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    
-                   //We will uncomment this function once it is created  
-                   // takePicture()
-
-                } else {
-                    Toast.makeText(this,"Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-
-            else -> {
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+       super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_GALLERY_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                //takePicture()
+            } else {
+                Toast.makeText(this@MainActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
     ```
     
     
-9. Now, we will be creating a function `private fun createFile() : File` to create a file that stores an image that is taken by the camera before we make the method that takes the picture. Insert the following function into your `MainAcitvity.kt class`. You will need insert a couple of imports at the top of the file. In addition, int There will be an error due `CurrentPhotoPath = absolutePath`. We will fix this in the following steps.
+    
+    ``` kotlin
+    private val CAMERA_REQUEST_CODE = 12345
+    private val REQUEST_GALLERY_CAMERA = 12345
+    ```
+    
+    
+    
+    
+6. Now, we will be creating a function `private fun createFile() : File` to create a file that stores an image that is taken by the camera before we make the method that takes the picture. Insert the following function into your `MainAcitvity.kt class`. In addition, there will be an error due `currentPhotoPath = absolutePath`. We will fix this in the following step.
     
  
  
@@ -131,54 +140,43 @@ In order to setup the "My Progress App", you will need a few things including:
                 storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
-            mCurrentPhotoPath = absolutePath
+            currentPhotoPath = absolutePath
         }
     }
     ```
     
-    
-    
-    ``` kotlin
-    import java.io.IOException
-    import java.io.File
-    import java.text.SimpleDataFormat
-    import android.os.Environment
-    import java.util.*
-    ```
-    
-    
-    
-10. Insert the following line in `MainActivity.kt class` right after where you declared `private val PERMISSION_REQUEST_CODE = 1`
+ 
+ 
+7. Insert the following line in the beginning of the`MainActivity class` 
 
 
 
     ``` kotlin
-    private var CurrentPhotoPath: String? = null;
+    private var currentPhotoPath: String? = null;
     ```
     
     
     
-11. Next, we need to configure the `FileProvider` in the `AndroidManifest.xml` located in `app/manifests/` in order to add a provider to our application. This code will be inserted between `<application>` and `</application>`. Do not worry if you see errors.
+8. Next, we need to configure the `FileProvider` in the `AndroidManifest.xml` located in `app/manifests/` in order to add a provider to our application. This code will be inserted between `<application>` and `</application>`. Do not worry if you see errors.
 
 
 
     ``` kotlin
     <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path">
-                
+                android:resource="@xml/file_path"> 
             </meta-data>
         </provider>
     ```
     
     
     
-12. Create a new xml file called `file_path.xml` under the `app/res/xml` folder. the `xml` folder is made when you create the file. Right click on `app/res`. Choose `New` -> `Android Resource File`. In the `File name` field, insert `file_path`. For the `Resource Type` choose `XML`, then click `OK` in the bottom right hand corner. Insert the code after clicking `Code` in the toolbar above the `Attribute Pane`, replacing what was default in the file. You MUST add your package name in the path.
+9. Create a new xml file called `file_path.xml` under the `app/res/xml` folder. The `xml` folder is made when you create the file. Right click on `app/res`. Choose `New` -> `Android Resource File`. In the `File name` field, insert `file_path`. For the `Resource Type` choose `XML`, then click `OK` in the bottom right hand corner. Insert the code after clicking `Code` in the toolbar above the `Attribute Pane`, replacing what was default in the file. You MUST add your package name in the path.
     
     
     ``` kotlin
@@ -190,72 +188,45 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
 
-13. Navigate back to the `MainActivity.kt class`. We will now insert the take picture function using the code below. This insert starts the camera to capture an image. You will need to have more imports at the top of the file. Import all the following imports at the top of the file as well (the ones you do not already have). Uncomment the `takePicture()` line of code in the `onRequestsPermissionsResult(...)` function.
+10. Navigate back to the `MainActivity class`. We will now insert the take picture function using the code below. This insert starts the camera to capture an image. Uncomment the `takePicture()` line of code in the `onRequestsPermissionsResult(...)` function.
+    
     
     
     ``` kotlin
      private fun takePicture() {
-
-        val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val file: File = createFile()
-
-        val uri: Uri = FileProvider.getUriForFile(
-                this,
-                "com.example.android.fileprovider",
-                file
-        )
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if(intent.resolveActivity(packageManager)!= null) {
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        }
     }
     ```
     
     
-    
-    ``` kotlin
-    import android.app.Activity
-    import android.content.Intent
-    import android.graphics.Bitmap
-    import android.graphics.BitmapFactory
-    import android.net.Uri
-    import android.provider.MediaStore
-    import android.widget.Button
-    import android.widget.ImageView
-    import androidx.core.content.FileProvider
-    ```
-    
-    
-14. Insert of following line of code at the top of the `MainActivity.kt class ` outside all the functions where you defined other `val` and `var` variables.
- 
- 
- 
-    ``` kotlin
-    val REQUEST_IMAGE_CAPTURE = 1
-    ```
    
-   
-15. Now, after the function `takePicture()` opens the camera, we will need to capture an image. We will then need to show this on our `ImageView`. In order to get the `ImageView`, add the method to the `MainActivity.kt class`. There will be an error. 
+11. Now, after the function `takePicture()` opens the camera, we will need to grab the image. We will then need to show this on our `imageView`. In order to get the image into the `ImageView`, add the method to the `MainActivity class`. There will be an error. 
 
 
 
     ``` kotlin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+       super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                CAMERA_REQUEST_CODE -> {
+                    val extras = data?.getExtras()
+                    val imageBitmap = extras?.get("data") as Bitmap
 
-            //To get the File for further usage
-            val auxFile = File(CurrentPhotoPath)
+                    imageView.setImageBitmap(imageBitmap)
 
-
-           var bitmap :Bitmap=BitmapFactory.decodeFile(CurrentPhotoPath)
-            imageView.setImageBitmap(bitmap)
-
+                }
+            }
         }
     }
     ```
     
     
     
-16. Add the followings line of code under where you defined the `var` and `val` variables at the top of the class. This will be the `Image View` that the picture shows up on. The `Button` will be used in another function.
+12. Add the followings line of code under where you defined the `var` and `val` variables at the top of the class. This will be the `Image View` that the picture shows up on. The `Button` will be used in another function.
     
 
     ``` kotlin
@@ -264,7 +235,7 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
-17. Add the following code to your `override fun onCreate(savedInstanceState: Bundle?)` function. You can replace the `R.id.image_view` and `R.id.btn_capture` later when we create our `ButtonID` and `ImageViewID`. when the `Capture Button` is pressed, permissions are checked. You will need to add the `checkPermission()` function in the next step.
+13. Add the following code to your `override fun onCreate(savedInstanceState: Bundle?)` function. You can replace the `R.id.image_view` and `R.id.btn_capture` later when we create our `ButtonID` and `ImageViewID`. when the `Capture Button` is pressed, permissions are checked. You will need to add the `checkPermission()` function in the next step.
 
 
 
@@ -272,33 +243,23 @@ In order to setup the "My Progress App", you will need a few things including:
     imageView = findViewById(R.id.image_view)
     captureButton = findViewById(R.id.btn_capture)
     captureButton.setOnClickListener(View.OnClickListener {
-        if (checkPersmission()) takePicture() else requestPermission()
+          if(Build.VERSION.SDK_INT >= 23) {
+                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED                        || ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=              PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_GALLERY_CAMERA)
+                } else {
+                    takePicture()
+                }
+            } else {
+                takePicture()
+            }
     })
     ```
     
     
     
-18. Add the `checkPermission()` function in the `MainActivity.kt` class. This checks if we have the right permissions to access the camera. Add the import at the top of your file as well.
-
-
-    ``` kotlin
-        private fun checkPersmission(): Boolean {
-        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-    }
-    ```
-    
-    
-    
-    ``` kotlin
-    import android.view.View
-    ```
-    
-    
-    
-    
-19. At this time, there should only be errors at the lines containing `imageView = findViewById(R.id.image_view)` and `captureButton = findViewById(R.id.btn_capture)` in the `onCreate(savedInstanceState: Bundle?)` because we have not created any of our layout yet in order to get our `ButtonID` and `ImageViewID`.
+14. At this time, there should only be errors at the lines containing `imageView = findViewById(R.id.image_view)` and `captureButton = findViewById(R.id.btn_capture)` in the `onCreate(savedInstanceState: Bundle?)` because we have not created any of our layout yet in order to get our `ButtonID` and `ImageViewID`.
     
     
     
