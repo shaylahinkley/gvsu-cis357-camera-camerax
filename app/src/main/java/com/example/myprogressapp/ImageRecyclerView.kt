@@ -11,6 +11,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.Adapter<ImageRecyclerView.ViewHolder>() {
@@ -41,7 +44,8 @@ class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentFile = File(dataSet[position])
-        holder.myTitle?.text = currentFile.nameWithoutExtension
+        val parsedName = SimpleDateFormat("EEE, MMM d, h:m a").format(currentFile.lastModified()).toString()
+        holder.myTitle?.text = parsedName
 
         val bitmap : Bitmap = BitmapFactory.decodeFile(currentFile.path)
         holder.myImage?.setImageBitmap(bitmap)

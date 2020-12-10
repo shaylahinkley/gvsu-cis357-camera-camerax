@@ -12,6 +12,7 @@ class ImageViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.imageview_activity)
 
+        // Get's the image path from the view, then loads the image, thus displaying it.
         val image = intent.getStringExtra("Image")
         val bitmap : Bitmap = BitmapFactory.decodeFile(image)
         findViewById<ImageView>(R.id.image_view_activity_image).setImageBitmap(bitmap)

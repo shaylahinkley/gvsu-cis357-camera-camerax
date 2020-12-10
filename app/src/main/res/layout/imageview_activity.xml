@@ -10,6 +10,7 @@
         android:layout_width="410dp"
         android:layout_height="733dp"
         android:contentDescription="@string/image_view_activity_image"
+        android:rotation="90"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

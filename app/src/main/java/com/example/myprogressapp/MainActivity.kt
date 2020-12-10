@@ -1,10 +1,9 @@
 package com.example.myprogressapp
 
-import android.Manifest.permission.CAMERA
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +13,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -30,7 +28,6 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     //Might need to change the ID's of these (they are also used in other methods)
-    lateinit var imageView: ImageView
     //lateinit var imageView: ImageView
     lateinit var captureButton: Button
 
@@ -39,33 +36,35 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_GALLERY_CAMERA = 12345
     private val PERMISSION_REQUEST_CODE: Int = 101
 
+    // Adapater used to control the recycler view.
     var adapter: ImageRecyclerView? = null
-    val allFilePaths = ArrayList<String>()
 
-    //variable that is
+    // These are shared with the recycler view, they contain the paths to each of the image files.
+    private val allFilePaths = ArrayList<String>()
+
+    //variable that is storing the latest file created.
     private var currentPhotoPath: String? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //set up the recycler view.
+        //Set's up the recycler view. This is where images are stored for now on.
         var rView: RecyclerView = findViewById(R.id.rvImages)
         rView.layoutManager = (LinearLayoutManager(this))
         adapter = ImageRecyclerView(allFilePaths)
         rView.adapter = adapter
-        val dividerItemDecoration = DividerItemDecoration(rView.getContext(), 0)
+        val dividerItemDecoration = DividerItemDecoration(rView.context, 0)
         rView.addItemDecoration(dividerItemDecoration)
 
-        //change ID's to real ones when layout is complete
-        //imageView = findViewById(R.id.image_view)
+
         captureButton = findViewById(R.id.btn_capture)
         captureButton.setOnClickListener(View.OnClickListener {
             if(Build.VERSION.SDK_INT >= 23) {
-                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(
                             this,
-                            arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_GALLERY_CAMERA)
+                            arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_GALLERY_CAMERA)
                 } else {
                     takePicture()
                 }
@@ -74,9 +73,12 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
 
+    fun sortImagesByDate() {
 
     }
+
 
     //this should be kept the same (I believe)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -94,6 +96,18 @@ class MainActivity : AppCompatActivity() {
     private fun takePicture() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if(intent.resolveActivity(packageManager)!= null) {
+
+            // We create a file here because that's how we reference what to display for the user on
+            // the recycler view and activity page.
+            val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val file: File = createFile()
+
+            val uri: Uri = FileProvider.getUriForFile(
+                    this,
+                    "com.example.android.fileprovider",
+                    file
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             startActivityForResult(intent, CAMERA_REQUEST_CODE)
         }
 
@@ -105,16 +119,11 @@ class MainActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 CAMERA_REQUEST_CODE -> {
-                    val extras = data?.getExtras()
-                    val imageBitmap = extras?.get("data") as Bitmap
-
-            //To get the File for further usage
-            val auxFile = File(currentPhotoPath)
-            //var bitmap : Bitmap = BitmapFactory.decodeFile(CurrentPhotoPath)
-            //imageView.setImageBitmap(bitmap)
-
-            allFilePaths.add(currentPhotoPath.toString())
-            adapter?.notifyDataSetChanged()
+                    // Add the file path to the recycler view.
+                    allFilePaths.add(currentPhotoPath.toString())
+                    adapter?.notifyDataSetChanged()
+                }
+            }
         }
     }
 
