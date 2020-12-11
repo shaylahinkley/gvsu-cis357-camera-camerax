@@ -3,9 +3,6 @@ package com.example.myprogressapp
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +12,6 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.rotationMatrix
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 
 

@@ -40,5 +40,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/recyler_item_image"
-        app:layout_constraintTop_toTopOf="@id/recyler_item_image" />
+        app:layout_constraintTop_toTopOf="@id/recyler_item_image"
+        tools:ignore="RtlCompat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

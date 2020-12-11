@@ -3,13 +3,11 @@ package com.example.myprogressapp
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Camera
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.Surface
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -27,8 +25,6 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    //Might need to change the ID's of these (they are also used in other methods)
-    //lateinit var imageView: ImageView
     lateinit var captureButton: Button
 
     //codes that are used for image capture by camera
@@ -44,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private val allFilePaths = ArrayList<String>()
 
     //variable that is storing the latest file created.
-    private var currentPhotoPath: String? = null;
+    private var currentPhotoPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +69,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun sortImagesByDate() {
 
-    }
-
-
-    //this should be kept the same (I believe)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_GALLERY_CAMERA) {
@@ -90,8 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //opens camera and takes a picture. should be kept the same
+    //opens camera and takes a picture
     private fun takePicture() {
+
             // We create a file here because that's how we reference what to display for the user on
             // the recycler view and activity page.
             val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -106,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, CAMERA_REQUEST_CODE)
         }
 
-    //this might have to change. this is actually where you send the data over to the view and set it
+    //This is actually where you send the data over to the view and set it
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

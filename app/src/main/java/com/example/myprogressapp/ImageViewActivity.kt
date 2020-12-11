@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
 
 class ImageViewActivity : AppCompatActivity() {
 
@@ -28,7 +27,6 @@ class ImageViewActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.image_view_date).text = "Date Taken: " + SimpleDateFormat("EEE, MMM d, h:mm:ss a").format(imageDate).toString()
 
         val bitmap : Bitmap = BitmapFactory.decodeFile(image)
-        //findViewById<ImageView>(R.id.image_view_activity_image).setImageBitmap(bitmap)
         imageView.setImageBitmap(bitmap)
 
 
