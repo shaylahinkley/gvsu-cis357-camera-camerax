@@ -2,7 +2,7 @@
 # Overview
 
 This is a demonstration application to get familiar with Android [Camera](https://developer.android.com/training/camera)/[Camerax](https://developer.android.com/training/camerax). 
-The demonstration assumes that the user has a basic understanding of coding in Kotlin in Android Studio as well as creating layouts in Android Studio. This page includes a step-by-step tutorial of how to complete the "My Progress Application".
+The demonstration assumes that the user has a basic understanding of coding in Kotlin in Android Studio as well as creating layouts in Android Studio. This page includes a step-by-step tutorial of how to complete the ["My Progress Application"](https://youtu.be/3l8b2huccKk).
 
 ## Android Camera/CameraX
 
@@ -10,7 +10,7 @@ Android's Camra and CameraX are two essential topics in Android Mobile Developme
 
 ## My Progress App
 
-This application is used to track progress of crafts, buildings, weightloss, and so much more - just in pictures. This application allows users to take images with their Android enabled device within the application. The images are sorted by date allowing users to easily see the beginning "before" picture and the end "after" picture. A demoonstration video of the application can be found here. Pleae watch the video before starting, so that you can better understand the features.
+This application is used to track progress of crafts, buildings, weightloss, and so much more - just in pictures. This application allows users to take images with their Android enabled device within the application. The images are sorted by date allowing users to easily see the beginning "before" picture and the end "after" picture. A demoonstration video of the application can be found [here](https://youtu.be/3l8b2huccKk). Pleae watch the video before starting, so that you can better understand the features.
 
 ## Future Considerations
 
