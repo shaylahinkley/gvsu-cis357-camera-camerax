@@ -117,10 +117,11 @@ In order to setup the "My Progress App", you will need a few things including:
         tools:ignore="RtlCompat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     ```
+
     
     
 
-## Opening the camera, taking an image, and creating an image  - MainActivity.kt
+## Opening the camera, taking an image, and creating an image file  - MainActivity.kt
 1. Navigate to `GradleScripts/build.gradle (Module: MyProgressApp.app)`
 2. Scroll to the bottom where you see `dependencies`. In between the `brackets {}` add the following code if they do not already exist. These dependencies will be needed prior to starting the project.
 
@@ -310,7 +311,7 @@ In order to setup the "My Progress App", you will need a few things including:
     
     
    
-13. Now, after the function `takePicture()` opens the camera, we will need to grab the image. We will then need to show this on our `imageView`. In order to get the image into the `ImageView`, add the method to the `MainActivity class`. There will be an error. Insert the second snippet of code at the top of your class.
+13. Now, after the function `takePicture()` opens the camera and takes an image, we will need to grab the image. We will then need to show this on our ImageView that is in our RecyclerView. In order to get the image into the `ImageView`, add the method to the `MainActivity class`. There will be an error. Insert the second snippet of code at the top of your class. Once the camera takes the image, the image path is added as a string to an arraylist `allFilePaths` that will be used to populate our RecyclerView. We will also need to notify our RecyclerView adapter that our data set changed so that all the images appear on the screen.
 
 
 
@@ -382,9 +383,184 @@ In order to setup the "My Progress App", you will need a few things including:
     ```
     
     
+## Class that populates the recycler view with images taken - ImageRecyclerView.kt
+1. Navigate to `app/java/com.example.myprogressapp/`. Right click on the folder and select `New` -> `Kotlin file/class`. Name the class `ImageRecyclerView`. This class will populate the recycler view with the images taken by the camera by grabbing them from the file they were saved to.
+2. Insert the following import statements at the top of the file.
+
+
+    ``` kotlin
+    import android.content.Intent
+    import android.graphics.Bitmap
+    import android.graphics.BitmapFactory
+    import android.view.LayoutInflater
+    import android.view.View
+    import android.view.ViewGroup
+    import android.widget.ImageView
+    import android.widget.TextView
+    import androidx.core.content.ContextCompat.startActivity
+    import androidx.core.graphics.rotationMatrix
+    import androidx.recyclerview.widget.RecyclerView
+    import java.io.File
+    import java.text.SimpleDateFormat
+    ```
+ 
+
+3. Replace the class name with the following line of code. This allows the arraylist of file names to be passed into the RecyclerView. 
+
+
+
+    ``` kotlin
+    class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.Adapter<ImageRecyclerView.ViewHolder>()
+    ```
 
     
     
+
+ 4. Next, we wnat to nest another class inside our `ImageRecyclerView class`. Insert the following code. This grabs items from the layout so we are able to reference them within our code.
+ 
+ 
+    ``` kotlin
+     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var myImagePath: String? = null
+        var myImage: ImageView? = null
+        var myTitle: TextView? = null
+
+        init {
+            myImage = itemView.findViewById(R.id.recyler_item_image)
+            myTitle = itemView.findViewById(R.id.recyler_item_text)
+        }
+    }
+    ```
+    
+    
+    
+5. From here, we are going to need to override a few functions. Let's start with `getItemCount()`. This function tells us how many rows will be needed in our RecyclerView. Insert the following code. We grab the `dataSet` array that was passed into our `ImageRecyclerView class` as a parameter.
+
+
+
+    ``` kotlin
+    override fun getItemCount(): Int {
+        return dataSet.size
+    }
+    ```
+    
+    
+    
+6. We will now override the `onCreateViewHolder()` function. This function inflates the layout as well as sets a `onClickListener()` for each row of the RecyclerView. It will send the images over to the new activity class we are going to create, `ImageViewActivity class` so that way a full sized image can be displayed. For now this is commented out so that there are no errors.
+
+
+
+    ``` kotlin
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.imageview_row, parent, false)
+        val layoutParams: ViewGroup.LayoutParams = view.layoutParams
+        layoutParams.height = (parent.height * 0.3).toInt()
+        view.layoutParams = layoutParams
+
+        val holder = ViewHolder(view)
+      //  view.setOnClickListener {
+        //    val intent = Intent(it.context, ImageViewActivity::class.java).apply {
+        //        putExtra("ImagePath", holder.myImagePath)
+        //    }
+        //    startActivity(it.context, intent, null)
+      //  }
+
+        return holder
+    }
+    ```
+    
+    
+7. Time to override the `onBindViewHolder()` function. This function grabs the image file from the array of files based on the position in the RecyclerView. It grabs the time and date where the image was taken, and sets the textView to hold the contents. In addition, the file of the image is decoded into a `Bitmap`. This is essential in viewing the image. The ImageView in the RecyclerView is then set to the bitmap that was decoded.
+
+
+
+    ``` kotlin
+     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        rotationMatrix(180.toFloat())
+        val currentFile = File(dataSet[position])
+        val parsedName = SimpleDateFormat("EEE, MMM d, h:m a").format(currentFile.lastModified()).toString()
+        holder.myTitle?.text = parsedName
+        val bitmap : Bitmap = BitmapFactory.decodeFile(currentFile.path)
+        holder.myImage?.setImageBitmap(bitmap)
+        holder.myImagePath = dataSet[position]
+
+    }
+    ```
+    
+    
+    
+## Creating page with full sized image when clicking on recycler view - ImageViewActivity.kt
+
+1. Navigate to `app/java/com.example.myprogressapp/`. Right click on the folder and select `New` -> `Kotlin file/class`. Name the class `ImageViewActivity`. After a row in the recycler view is clicked, this activity will appear displaying the full sized image and date of when the photo was taken.
+2. Insert the following imports at the top of the file
+
+
+
+    ``` kotlin
+    import android.graphics.Bitmap
+    import android.graphics.BitmapFactory
+    import android.os.Bundle
+    import android.widget.ImageView
+    import android.widget.TextView
+    import androidx.appcompat.app.AppCompatActivity
+    import java.io.File
+    import java.text.SimpleDateFormat
+    ```
+    
+3. Replace the class name with the following line.
+
+
+    ``` kotlin
+    class ImageViewActivity : AppCompatActivity()
+    ```.
+    
+    
+4. Insert the following line of code at the top of the class. It is needed in order to access the ImageView on the layout.
+
+
+
+    ``` kotlin
+    lateinit var imageView: ImageView
+    ```
+    
+    
+7.  We will need to set the content view to our layout. We can do this with the following code in the `onCreate()` function.
+
+
+    ``` kotlin
+    setContentView(R.layout.imageview_activity)
+    ```
+
+
+
+8. Now in the `onCreate()` function, will will need to add a few things following `setContentView`. We need to need to retrieve the file from the ImageView within the RecyclerView, as well as the date from the file. We then set our TextView to the date that the image was taken. In addition, we need to decode the image again since we are pulling from a file. Like we did in the RecyclerView ImageView, we will set the ImageView to the bitmap that was returned as a result of decoding the image file.
+    
+    
+    
+    ``` kotlin
+    // Get's the image path from the view, then loads the image, thus displaying it.
+        val image = intent.getStringExtra("ImagePath")
+        imageView = findViewById(R.id.image_view_activity_image)
+
+        val imageDate = File(image).lastModified();
+
+        findViewById<TextView>(R.id.image_view_date).text = "Date Taken: " + SimpleDateFormat("EEE, MMM d, h:mm:ss a").format(imageDate).toString()
+
+        val bitmap : Bitmap = BitmapFactory.decodeFile(image)
+        //findViewById<ImageView>(R.id.image_view_activity_image).setImageBitmap(bitmap)
+        imageView.setImageBitmap(bitmap)
+
+
+        findViewById<ImageView>(R.id.image_view_activity_image).setOnClickListener{
+            // Return us back to the previous screen.
+            finish()
+        }
+        
+     ```
+9. Now, go back to your `ImageRecyclerView()` and uncomment the code in the `onCreateViewHolder()` function. This sets an `onClickListener()` so that when a row in the recycler view is tapped, then a full size image appears.
+10. Congrats, you are done! Try running your code on the emulator. Please make sure to use API 23 and up, however, 30 is preferable. The device we suggest to use is the `Nexus 6 API 30` or the `Pixel 2 API 30`. If you have trouble finding these, visit the `AVD Manager` under the `devices menu` next to the `run` button.
+11. Happy coding!
+        
     
     
     
