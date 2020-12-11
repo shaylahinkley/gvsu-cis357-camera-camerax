@@ -4,7 +4,7 @@
 This is a demonstration application to get familiar with Android [Camera](https://developer.android.com/training/camera)/[Camerax](https://developer.android.com/training/camerax). 
 The demonstration assumes that the user has a basic understanding of coding in Kotlin in Android Studio as well as creating layouts in Android Studio. This page includes a step-by-step tutorial of how to complete the "My Progress Application".
 
-##Android Camera/CameraX
+## Android Camera/CameraX
 
 Android's Camra and CameraX are two essential topics in Android Mobile Development that every developer should know. Most applications today use one or both in some sort of sense. Every time you open an app and take a picture on an Android phone or upload images from your Android's photo galley, Android Camera and/or CameraX is involved. In a few short sentences, CameraX is a JetPack support library that is built to make Android camera development easier. Camera development on Android can be tricky at times, but you still need to know Android's core "Camera" functiionality. 
 
@@ -535,7 +535,7 @@ In order to setup the "My Progress App", you will need a few things including:
 
 
 
-8. Now in the `onCreate()` function, will will need to add a few things following `setContentView`. We need to need to retrieve the file from the ImageView within the RecyclerView, as well as the date from the file. We then set our TextView to the date that the image was taken. In addition, we need to decode the image again since we are pulling from a file. Like we did in the RecyclerView ImageView, we will set the ImageView to the bitmap that was returned as a result of decoding the image file.
+8. Now in the `onCreate()` function, will will need to add a few things following `setContentView`. We need to need to retrieve the file from the ImageView within the RecyclerView, as well as the date from the file. We then set our TextView to the date that the image was taken. In addition, we need to decode the image again since we are pulling from a file. Like we did in the RecyclerView ImageView, we will set the ImageView to the bitmap that was returned as a result of decoding the image file. If you want to return back to the layout with the images in the RecyclerView,  you just tap on the screen which finishes the  `ImageViewActivity`.
     
     
     
