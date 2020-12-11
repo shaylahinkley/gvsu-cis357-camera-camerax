@@ -510,9 +510,11 @@ In order to setup the "My Progress App", you will need a few things including:
 3. Replace the class name with the following line.
 
 
+
     ``` kotlin
     class ImageViewActivity : AppCompatActivity()
-    ```.
+    ```
+    
     
     
 4. Insert the following line of code at the top of the class. It is needed in order to access the ImageView on the layout.
