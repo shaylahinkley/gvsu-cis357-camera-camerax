@@ -46,7 +46,7 @@ In order to setup the "My Progress App", you will need a few things including:
 6. On the left hand side of the window, you will see `1: Project`. You can click this to collapse and open the layout of the project. Making sure that the `Project Layout` is not collapsed, ensure in the top left of the panel that `Android` is chosen from the drop down menu. This will help simplify what files you need to look at. 
 
 ## Creating the main page  layout - activity_main.xml
-1. Navigate to `app/rese/layout/activity_main.xml`. This is the file that we will be using to create the main page layout.
+1. Navigate to `app/res/layout/activity_main.xml`. This is the file that we will be using to create the main page layout.
 2. Make sure you are in the `Design` pane. If you are not, you can change this in the top right. There will be three different options: `Code`, `Split`, and `Design`.
 3. The first thing we want to do is add a `Constraint Layout`. This can be found in the pane under `Palette` -> `Layouts`. Drag the `Constraint Layout` onto the layout.
 4. Next thing we want to do is add a button that is going to be used to open the camera. To do this go to the pane under `Palette` -> `Buttons`. Add a normal `Button` to the bottom of the layout.
@@ -57,13 +57,15 @@ In order to setup the "My Progress App", you will need a few things including:
 9. Ensure the `clickable` field is clicked `true`. 
 10. Set the `cornerRadius` to `100dp` and `focusable` to `true`.
 11. Set the `text` field to the string `CAPTURE`. If you would like to change the text color, edit the `textColor` field.
-12. Next, scroll down to the `Transforms` section and make sure the view `Rotation z` is set to `0` on the slider bar.
-13. Now, navigate back to the `Palette` and add a `LinearLayout (vertical) 
+12. Now, navigate back to the `Palette` and add a `LinearLayout (vertical)` to the layout. Again, click on the `Attributes` pain. Set the `layout_width` to `411 dp` and the `layout_height` to `645dp`. Set both the `layout_constaintStart_toStartOf` and `layout_constaintTop_topTopOf` to `parent`. Make sure the orientation says `vertical`. 
+13. Under the `Layout` section, add a top and left constraint of `0`.
+14. Now, we are going to add a recycler view. Go to `Common` under the `Palette` tab. Nest a `RecyclerView` in the `LinearLayout` by dragging `RecyclerView` under `LinearLayout`.
+15. Under the `Attributes` pane, add an ID for the RecyclerView. Name the ID `rvImages`. Set the `layout_width` and `layout_height` to `match_parent`.
 
 
 
-
-## Creating the recycler view 
+## Creating the recycler view row - imageview_row.xml
+1. Navigate to `app/res/layout/`. Right click on the `layout` folder, click `New` -> `Layout Resource File
 
 
 ## Capturing images with the camera
