@@ -46,7 +46,7 @@ class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         rotationMatrix(180.toFloat())
         val currentFile = File(dataSet[position])
-        val parsedName = SimpleDateFormat("EEE, MMM d, h:m a").format(currentFile.lastModified()).toString()
+        val parsedName = SimpleDateFormat("EEE, MMM d, h:mm a").format(currentFile.lastModified()).toString()
         holder.myTitle?.text = parsedName
         val bitmap : Bitmap = BitmapFactory.decodeFile(currentFile.path)
         holder.myImage?.setImageBitmap(bitmap)

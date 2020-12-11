@@ -36,7 +36,7 @@
         android:contentDescription="@string/image_view_text"
         android:gravity="center_vertical"
         android:textAlignment="textStart"
-        android:textSize="22sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/recyler_item_image"
