@@ -3,17 +3,21 @@ package com.example.myprogressapp
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.graphics.rotationMatrix
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.Adapter<ImageRecyclerView.ViewHolder>() {
@@ -30,6 +34,9 @@ class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.imageview_row, parent, false)
+        val layoutParams: ViewGroup.LayoutParams = view.layoutParams
+        layoutParams.height = (parent.height * 0.3).toInt()
+        view.layoutParams = layoutParams
 
         val holder = ViewHolder(view)
         view.setOnClickListener {
@@ -41,19 +48,25 @@ class ImageRecyclerView(private val dataSet: ArrayList<String>)  : RecyclerView.
 
         return holder
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        rotationMatrix(180.toFloat())
         val currentFile = File(dataSet[position])
         val parsedName = SimpleDateFormat("EEE, MMM d, h:m a").format(currentFile.lastModified()).toString()
         holder.myTitle?.text = parsedName
-
         val bitmap : Bitmap = BitmapFactory.decodeFile(currentFile.path)
         holder.myImage?.setImageBitmap(bitmap)
-
         holder.myImagePath = dataSet[position]
+
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
+
+
+
 }
+
+
+
+

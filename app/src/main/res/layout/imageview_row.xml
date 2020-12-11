@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyler_item"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:orientation="horizontal">
+    android:layout_height="150dp"
+    android:animateLayoutChanges="false"
+    android:background="#00AEE1F4"
+    android:visibility="visible">
 
     <ImageView
         android:id="@+id/recyler_item_image"
-        android:layout_width="103dp"
-        android:layout_height="74dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/image_view_image"
-        android:rotation="90" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/recyler_item_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/recyler_item_text"
-        android:layout_width="310dp"
-        android:layout_height="74dp"
+        android:layout_width="212dp"
+        android:layout_height="212dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#03FFFFFF"
         android:contentDescription="@string/image_view_text"
         android:gravity="center_vertical"
-        android:textSize="22sp" />
-</LinearLayout>
+        android:textAlignment="textStart"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recyler_item_image"
+        app:layout_constraintTop_toTopOf="@id/recyler_item_image" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,20 +3,20 @@ package com.example.myprogressapp
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.graphics.Camera
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.Surface
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val CAMERA_REQUEST_CODE = 12345
     private val REQUEST_GALLERY_CAMERA = 12345
     private val PERMISSION_REQUEST_CODE: Int = 101
+
 
     // Adapter used to control the recycler view.
     var adapter: ImageRecyclerView? = null
@@ -136,5 +137,9 @@ class MainActivity : AppCompatActivity() {
             currentPhotoPath = absolutePath
         }
     }
+
+
+
+
 }
 
