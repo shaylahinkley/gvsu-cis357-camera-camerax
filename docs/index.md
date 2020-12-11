@@ -2,11 +2,30 @@
 # Overview
 
 This is a demonstration application to get familiar with Android [Camera](https://developer.android.com/training/camera)/[Camerax](https://developer.android.com/training/camerax). 
-The demonstration assumes that the user has a basic understanding of coding in Kotlin in Android Studio.
+The demonstration assumes that the user has a basic understanding of coding in Kotlin in Android Studio as well as creating layouts in Android Studio. This page includes a step-by-step tutorial of how to complete the "My Progress Application".
+
+##Android Camera/CameraX
+
+Android's Camra and CameraX are two essential topics in Android Mobile Development that every developer should know. Most applications today use one or both in some sort of sense. Every time you open an app and take a picture on an Android phone or upload images from your Android's photo galley, Android Camera and/or CameraX is involved. In a few short sentences, CameraX is a JetPack support library that is built to make Android camera development easier. Camera development on Android can be tricky at times, but you still need to know Android's core "Camera" functiionality. 
 
 ## My Progress App
 
-This application is used to track progress of crafts, buildings, weightloss, and so much more - just in pictures. This application allows users to take images with their Android enabled device and import them into the application. The images are sorted by date allowing users to easily see the beginning "before" picture and the end "after" picture.
+This application is used to track progress of crafts, buildings, weightloss, and so much more - just in pictures. This application allows users to take images with their Android enabled device within the application. The images are sorted by date allowing users to easily see the beginning "before" picture and the end "after" picture. A demoonstration video of the application can be found here. Pleae watch the video before starting, so that you can better understand the features.
+
+## Future Considerations
+
+This application is simple in order to focus on the main topic at hand: Android's Camera/CameraX. This application can easily be modified to include mulitple progresses that a user can keep track of. This can be done by including a recycler view containing a text view. The user can click a button to name a progress. Upon clicking the name in the recycler view, another activity will start, bringing the recycler view that is demonstrated in this application.
+
+
+## Features
+Some of the main features of this application include:
+- Opening application to main page that includes a `CAPTURE BUTTON`
+- Upon clicking the `CAPTURE BUTTON`, Android's camera application will open after asking for permissions from user for access to their camera and files
+- User is able to take an image, retake the image, or exit the camera application
+- Upon taking the image, if approved by the user, a recycler view will be populated with a small preview of the image and the date and time of when the image was captured
+- Upon clicking a row in the recycler view, an activity pops up with a larger size of the image along with the date the image was taken
+- Upon clicking anywhere on the page, the user will be navigated back to the main page with the populated recycler view
+- The user is able to capture more images that will continue to populate the recycler view
 
 
 # Getting started
@@ -22,9 +41,32 @@ In order to setup the "My Progress App", you will need a few things including:
 1.  Open Android Studio and select `File` -> `New Project`.  
 2.  Under the section heading `Phone and Tablet` click the activity labeled `Empty Activity` and click `Next`.  
 3.  On the `Configure Your Project` screen, name the application `MyProgressApp`. The `Package name` and `Save location` should update accordingly. If you wish to save into a different spot, click the folder icon on the right. 
-4.  Under `Language`, make sure `Kotlin` is chosen from the drop down menu and set the `Minimum SDK` to `API 19: Android 4.4 (KitKat)` to ensure that your application will run on a majority of devices. This can be changed in other projects, however, for this project we are going to stick with `API 19: Android 4.4 (KitKat)`. 
+4.  Under `Language`, make sure `Kotlin` is chosen from the drop down menu and set the `Minimum SDK` to `API 30`.  This can be changed in other projects, however, for this project we are going to stick with `API 30`. 
 5.  If you have done the steps correctly, your Android Studio will take you to the main editing window on the `MainActivity.kt` file. 
 6. On the left hand side of the window, you will see `1: Project`. You can click this to collapse and open the layout of the project. Making sure that the `Project Layout` is not collapsed, ensure in the top left of the panel that `Android` is chosen from the drop down menu. This will help simplify what files you need to look at. 
+
+## Creating the main page  layout - activity_main.xml
+1. Navigate to `app/rese/layout/activity_main.xml`. This is the file that we will be using to create the main page layout.
+2. Make sure you are in the `Design` pane. If you are not, you can change this in the top right. There will be three different options: `Code`, `Split`, and `Design`.
+3. The first thing we want to do is add a `Constraint Layout`. This can be found in the pane under `Palette` -> `Layouts`. Drag the `Constraint Layout` onto the layout.
+4. Next thing we want to do is add a button that is going to be used to open the camera. To do this go to the pane under `Palette` -> `Buttons`. Add a normal `Button` to the bottom of the layout.
+5. Next, in the `Attributes` pane on the right hand side of your screen (if you do not see this, click the button on your layout). We need to give an ID to the button so we can refer to it later. Name the ID `btn_capture` at the top of the `Attributes pane`.
+6. Under the `Declared Attributes` sectoin, set the `layout_width` to `135dp` and the  `layout_height` to `80dp`.
+7. Set both `layout_constraintBottom_toBottomOf` and `layout_constaintEnd_toEndOf` to `parent`. Also set the `layout_marginEnd` to `136dp` and `layout_marginBottom` to `4dp`.
+8. If you would like, you can also change the color of the button by clicking the `backgroundTint`. We chose a blueish color.
+9. Ensure the `clickable` field is clicked `true`. 
+10. Set the `cornerRadius` to `100dp` and `focusable` to `true`.
+11. Set the `text` field to the string `CAPTURE`. If you would like to change the text color, edit the `textColor` field.
+12. Next, scroll down to the `Transforms` section and make sure the view `Rotation z` is set to `0` on the slider bar.
+13. Now, navigate back to the `Palette` and add a `LinearLayout (vertical) 
+
+
+
+
+## Creating the recycler view 
+
+
+## Capturing images with the camera
 7. Navigate to `GradleScripts/build.gradle (Module: MyProgressApp.app)`
 8. Scroll to the bottom where you see `dependencies`. In between the `brackets {}` replace the code with the following code. These dependencies will be needed prior to starting the project.
 
