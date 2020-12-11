@@ -559,9 +559,13 @@ In order to setup the "My Progress App", you will need a few things including:
         }
         
      ```
+     
+     
+     
 9. Now, go back to your `ImageRecyclerView()` and uncomment the code in the `onCreateViewHolder()` function. This sets an `onClickListener()` so that when a row in the recycler view is tapped, then a full size image appears.
-10. Congrats, you are done! Try running your code on the emulator. Please make sure to use API 23 and up, however, 30 is preferable. The device we suggest to use is the `Nexus 6 API 30` or the `Pixel 2 API 30`. If you have trouble finding these, visit the `AVD Manager` under the `devices menu` next to the `run` button.
-11. Happy coding!
+10. The last thing that you need to do before you run your code is make sure all ImageView views are rotated correctly. A lot of Android devices (depends on which one) actually use a rotated landscape preview when you are in portrait mode. This means that your image will be in landscape regardless! A quick fix to this issue is to go into your `.xml` layout files that contain an ImageView. Then go to the `Attributes` pane -> `Transforms`. Make sure your `z` value is set to 0! If it is not, change it, if it already is set correctly, you should be good to go!
+11. Congrats, you are done! Try running your code on the emulator. Please make sure to use API 23 and up, however, 30 is preferable. The device we suggest to use is the `Nexus 6 API 30` or the `Pixel 2 API 30`. If you have trouble finding these, visit the `AVD Manager` under the `devices menu` next to the `run` button.
+12. Happy coding!
         
     
     
